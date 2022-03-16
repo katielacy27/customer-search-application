@@ -2,6 +2,7 @@ package com.newrelic.customerservice.controller.v1;
 
 import com.newrelic.customerservice.entity.CustomerEntity;
 import com.newrelic.customerservice.model.Customer;
+import com.newrelic.customerservice.model.query.CustomerQuery;
 import com.newrelic.customerservice.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,9 @@ public class CustomerController {
   public List<Customer> getCustomers() {
     // use a DTO since it reduces the amount of data that needs to be sent
     // to our front end, and it makes a great model :)
-    return customerService.getCustomers().stream().
+
+    // I have left the CustomerQuery here as just an empty object
+    return customerService.getCustomers(new CustomerQuery()).stream().
             map(CustomerEntity::toCustomerModel)
             .collect(Collectors.toList());
   }
