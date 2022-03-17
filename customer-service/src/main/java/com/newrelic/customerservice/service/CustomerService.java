@@ -3,30 +3,58 @@ package com.newrelic.customerservice.service;
 import com.newrelic.customerservice.entity.CustomerEntity;
 import com.newrelic.customerservice.model.query.CustomerQuery;
 import com.newrelic.customerservice.repository.CustomerRepository;
+import com.newrelic.customerservice.service.specification.CustomerSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static com.newrelic.customerservice.model.enums.SortBy.FIRST_NAME_ASCENDING;
 
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final CustomerSpecification specification;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, CustomerSpecification specification) {
         this.customerRepository = customerRepository;
+        this.specification = specification;
     }
 
-    // I added a Customer Query here thinking I had to filter / query in the backend but after
-    // rereading the question it looks like the filtering is all done in the frontend and data is
-    // pre sorted in the backend
-    // im pretty sure this is how AWS filtering works when searching in ECS... I'm going to
-    // leave the query object in here unused in case I want to actually query data in the future!
     public List<CustomerEntity> getCustomers(CustomerQuery customerQuery) {
-        Pageable limit = PageRequest.of(0,50);
-        return customerRepository.findAll(limit).getContent();
+        System.out.println(customerQuery);
+        Specification<CustomerEntity> customerEntitySpecification = specification.getSpecificationFromQuery(customerQuery);
+
+        List<CustomerEntity> customerList = customerRepository.findAll(customerEntitySpecification);
+
+        // now that we have a list of customers we want to sort them based on our sortBy enum
+        // if it doesn't exist we default to first name ascending (String already implements CompareTo)
+        switch((customerQuery.getSortBy()!= null) ? customerQuery.getSortBy() : FIRST_NAME_ASCENDING ) {
+            case FIRST_NAME_ASCENDING:
+                customerList.sort(Comparator.comparing(CustomerEntity::getFirstName));
+                break;
+            case LAST_NAME_ASCENDING:
+                customerList.sort(Comparator.comparing(CustomerEntity::getLastName));
+                break;
+            case COMPANY_NAME_ASCENDING:
+                customerList.sort(Comparator.comparing(CustomerEntity::getCompanyName));
+                break;
+            case FIRST_NAME_DESCENDING:
+                customerList.sort(Comparator.comparing(CustomerEntity::getFirstName).reversed());
+                break;
+            case LAST_NAME_DESCENDING:
+                customerList.sort(Comparator.comparing(CustomerEntity::getLastName).reversed());
+                break;
+            case COMPANY_NAME_DESCENDING:
+                customerList.sort(Comparator.comparing(CustomerEntity::getCompanyName).reversed());
+                break;
+        }
+        return customerList;
     }
 }

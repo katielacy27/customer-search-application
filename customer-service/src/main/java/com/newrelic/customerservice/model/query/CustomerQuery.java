@@ -1,5 +1,6 @@
 package com.newrelic.customerservice.model.query;
 
+import com.newrelic.customerservice.model.enums.SortBy;
 import lombok.*;
 
 @Builder
@@ -8,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 public class CustomerQuery {
-    private String firstName;
-    private String lastName;
+    private String name;
     private String companyName;
+    private SortBy sortBy;
 }

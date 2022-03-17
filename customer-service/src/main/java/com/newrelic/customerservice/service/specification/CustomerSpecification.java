@@ -1,17 +1,39 @@
 package com.newrelic.customerservice.service.specification;
 
 import com.newrelic.customerservice.entity.CustomerEntity;
+import com.newrelic.customerservice.entity.CustomerEntity_;
 import com.newrelic.customerservice.model.query.CustomerQuery;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerSpecification {
-    // I wrote this code intending to be querying the ENTIRE database of customers rather than
-    // just returning a page of 50 customers and filtering on THAT data. I reread the question
-    // and realized that filtering on the page is what was being asked.
-    // I am keeping this for if I wanted to search that in the FUTURE
+
+    // we don't care if the first name or last name begins with the search query
+    // thus we use specification.or
+    // the and null is so if we have an empty query
     public Specification<CustomerEntity> getSpecificationFromQuery(CustomerQuery query) {
-        return null;
+        Specification<CustomerEntity> returned =  Specification.where(containsFirstName(query.getName()))
+                .or(containsLastName(query.getName()));
+        return returned;
+    }
+
+    public Specification<CustomerEntity> containsFirstName(String firstName) {
+        if (firstName == null) return null;
+        // criteria builder substring signature: substring(phrase, start, length);
+        // find if the first characters of the name match what we are searching
+        return (customerEntityRoot, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.equal(
+                        criteriaBuilder.substring(customerEntityRoot.get(CustomerEntity_.firstName),1, firstName.length())
+                        , firstName);    }
+
+    public Specification<CustomerEntity> containsLastName(String lastName) {
+        if (lastName == null) return null;
+        // criteria builder substring signature: substring(phrase, start, length);
+        // find if the first characters of the name match what we are searching
+        return (customerEntityRoot, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.equal(
+                        criteriaBuilder.substring(customerEntityRoot.get(CustomerEntity_.lastName),1, lastName.length())
+                        , lastName);
     }
 }

@@ -7,15 +7,13 @@ import com.newrelic.customerservice.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value= "/v1")
 public class CustomerController {
   private final CustomerService customerService;
@@ -30,12 +28,11 @@ public class CustomerController {
   // This will also be useful if and when I want to add Pagination or querying
   @GetMapping(value= "/customers/", produces= MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
-  public List<Customer> getCustomers() {
+  public List<Customer> getCustomers(CustomerQuery customerQuery) {
     // use a DTO since it reduces the amount of data that needs to be sent
     // to our front end, and it makes a great model :)
 
-    // I have left the CustomerQuery here as just an empty object
-    return customerService.getCustomers(new CustomerQuery()).stream().
+    return customerService.getCustomers(customerQuery).stream().
             map(CustomerEntity::toCustomerModel)
             .collect(Collectors.toList());
   }
