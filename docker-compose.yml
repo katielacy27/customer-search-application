@@ -1,8 +1,24 @@
 version: '3.8'
 services:
-  app:
-    build: .
-    container_name: app
+  # react-app:
+  #   container_name: react-app
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-a
+  #   volumes:
+  #     - '.:/app'
+  #     - '/app/node_modules'
+  #   ports:
+  #     - 3000:3000
+  #   # enables hot reloading
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #
+  customer-service:
+    build: 
+      context: .
+      dockerfile: Dockerfile-b
+    container_name: customer-service
     depends_on:
       postgres:
         condition: service_healthy
