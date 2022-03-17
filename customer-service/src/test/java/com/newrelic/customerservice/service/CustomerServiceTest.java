@@ -1,18 +1,25 @@
 package com.newrelic.customerservice.service;
 
 import com.newrelic.customerservice.entity.CustomerEntity;
+import com.newrelic.customerservice.model.query.CustomerQuery;
 import com.newrelic.customerservice.repository.CustomerRepository;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,10 +47,13 @@ public class CustomerServiceTest {
                 .build();
         customerEntityList.add(customerEntity2);
 
-        given(customerRepository.findAll()).willReturn(customerEntityList);
+        Page customerEntityPage = new PageImpl(customerEntityList);
+        given(customerRepository.findAll(isA(Pageable.class))).willReturn(customerEntityPage);
 
-        List<CustomerEntity> returnList = customerService.getCustomers();
-        assertThat(returnList).isSameAs(customerEntityList);
+        CustomerQuery query = new CustomerQuery();
+        List<CustomerEntity> returnList = customerService.getCustomers(query);
+
+        assertThat(returnList.size()).isEqualTo(2);
 
     }
 
@@ -52,10 +62,13 @@ public class CustomerServiceTest {
 
         List<CustomerEntity> customerEntityList =  Collections.emptyList();
 
-        given(customerRepository.findAll()).willReturn(customerEntityList);
+        Page customerEntityPage = new PageImpl(customerEntityList);
+        given(customerRepository.findAll(isA(Pageable.class))).willReturn(customerEntityPage);
 
-        List<CustomerEntity> returnList = customerService.getCustomers();
-        assertThat(returnList).isSameAs(customerEntityList);
+        CustomerQuery query = new CustomerQuery();
+        List<CustomerEntity> returnList = customerService.getCustomers(query);
+
+        assertThat(returnList.size()).isEqualTo(0);
 
     }
 }

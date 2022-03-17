@@ -1,6 +1,7 @@
 package com.newrelic.customerservice.controller.v1;
 
 import com.newrelic.customerservice.entity.CustomerEntity;
+import com.newrelic.customerservice.model.query.CustomerQuery;
 import com.newrelic.customerservice.service.CustomerService;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -26,7 +28,6 @@ public class CustomerControllerTest {
     @MockBean
     private CustomerService customerService;
 
-
     @Test
     @SneakyThrows
     void getCustomersReturnsSingleCustomer() {
@@ -36,7 +37,7 @@ public class CustomerControllerTest {
                 .companyName("The Banana Stand")
                 .build();
 
-        when(customerService.getCustomers()).thenReturn(Collections.singletonList(customerEntity));
+        when(customerService.getCustomers(isA(CustomerQuery.class))).thenReturn(Collections.singletonList(customerEntity));
         mvc.perform(MockMvcRequestBuilders.get("/v1/customers/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].firstName", containsInAnyOrder("George Michael")));
@@ -69,7 +70,7 @@ public class CustomerControllerTest {
                 .build();
         customerEntityList.add(customerEntity3);
 
-        when(customerService.getCustomers()).thenReturn(customerEntityList);
+        when(customerService.getCustomers(isA(CustomerQuery.class))).thenReturn(customerEntityList);
         mvc.perform(MockMvcRequestBuilders.get("/v1/customers/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].firstName", containsInAnyOrder("Maeby", "Steve", "George Michael")));
@@ -79,7 +80,7 @@ public class CustomerControllerTest {
     @Test
     @SneakyThrows
     void getCustomersReturnsNoCustomers() {
-        when(customerService.getCustomers()).thenReturn(Collections.emptyList());
+        when(customerService.getCustomers(isA(CustomerQuery.class))).thenReturn(Collections.emptyList());
         mvc.perform(MockMvcRequestBuilders.get("/v1/customers/"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("[]"));
