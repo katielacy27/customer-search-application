@@ -5,12 +5,9 @@ import com.newrelic.customerservice.model.query.CustomerQuery;
 import com.newrelic.customerservice.repository.CustomerRepository;
 import com.newrelic.customerservice.service.specification.CustomerSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -28,13 +25,11 @@ public class CustomerService {
     }
 
     public List<CustomerEntity> getCustomers(CustomerQuery customerQuery) {
-        System.out.println(customerQuery);
         Specification<CustomerEntity> customerEntitySpecification = specification.getSpecificationFromQuery(customerQuery);
-
         List<CustomerEntity> customerList = customerRepository.findAll(customerEntitySpecification);
 
         // now that we have a list of customers we want to sort them based on our sortBy enum
-        // if it doesn't exist we default to first name ascending (String already implements CompareTo)
+        // if it doesn't exist we default to first name ascending
         switch((customerQuery.getSortBy()!= null) ? customerQuery.getSortBy() : FIRST_NAME_ASCENDING ) {
             case FIRST_NAME_ASCENDING:
                 customerList.sort(Comparator.comparing(CustomerEntity::getFirstName));

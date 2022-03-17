@@ -11,7 +11,6 @@ public class CustomerSpecification {
 
     // we don't care if the first name or last name begins with the search query
     // thus we use specification.or
-    // the and null is so if we have an empty query
     public Specification<CustomerEntity> getSpecificationFromQuery(CustomerQuery query) {
         Specification<CustomerEntity> returned =  Specification.where(containsFirstName(query.getName()))
                 .or(containsLastName(query.getName()));
