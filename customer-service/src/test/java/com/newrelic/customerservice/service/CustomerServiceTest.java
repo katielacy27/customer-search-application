@@ -3,29 +3,33 @@ package com.newrelic.customerservice.service;
 import com.newrelic.customerservice.entity.CustomerEntity;
 import com.newrelic.customerservice.model.query.CustomerQuery;
 import com.newrelic.customerservice.repository.CustomerRepository;
-import org.checkerframework.checker.units.qual.C;
+import com.newrelic.customerservice.service.specification.CustomerSpecification;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CustomerServiceTest {
     @Mock
     private CustomerRepository customerRepository;
+
+    @Mock
+    private CustomerSpecification customerSpecification;
+
+    @Mock
+    private Specification<CustomerEntity> mockSpecification;
 
     @InjectMocks
     private CustomerService customerService;
@@ -47,8 +51,8 @@ public class CustomerServiceTest {
                 .build();
         customerEntityList.add(customerEntity2);
 
-        Page customerEntityPage = new PageImpl(customerEntityList);
-        given(customerRepository.findAll(isA(Pageable.class))).willReturn(customerEntityPage);
+        when(customerSpecification.getSpecificationFromQuery(any())).thenReturn(mockSpecification);
+        given(customerRepository.findAll(eq(mockSpecification))).willReturn(customerEntityList);
 
         CustomerQuery query = new CustomerQuery();
         List<CustomerEntity> returnList = customerService.getCustomers(query);
@@ -62,8 +66,8 @@ public class CustomerServiceTest {
 
         List<CustomerEntity> customerEntityList =  Collections.emptyList();
 
-        Page customerEntityPage = new PageImpl(customerEntityList);
-        given(customerRepository.findAll(isA(Pageable.class))).willReturn(customerEntityPage);
+        when(customerSpecification.getSpecificationFromQuery(any())).thenReturn(mockSpecification);
+        given(customerRepository.findAll(mockSpecification)).willReturn(customerEntityList);
 
         CustomerQuery query = new CustomerQuery();
         List<CustomerEntity> returnList = customerService.getCustomers(query);
