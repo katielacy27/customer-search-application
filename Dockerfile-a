@@ -4,13 +4,13 @@ FROM node:13.12.0-alpine
 # set working direction
 WORKDIR /react-app
 
-# add `/react-app/node_modules/.bin` to $PATH
+# add `./customer-client/node_modules/.bin` to $PATH
 
-ENV PATH /react-app/node_modules/.bin:$PATH
+ENV PATH /customer-client/node_modules/.bin:$PATH
 
 # install application dependencies
-COPY ./react-app/package.json ./
-COPY ./react-app/package-lock.json ./
+COPY ./customer-client/package.json ./
+COPY ./customer-client/package-lock.json ./
 
 # npm install
 RUN npm install
