@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS customer (
 );
 
 
-INSERT INTO customer(first_name,last_name,company_name) VALUES ('Abigail','New Relic');
+INSERT INTO customer(first_name,last_name,company_name) VALUES ('Abigail', 'Allen', 'New Relic');
 INSERT INTO customer(first_name,last_name,company_name) VALUES ('Abigail','Ferguson','New Relic');
 INSERT INTO customer(first_name,last_name,company_name) VALUES ('Abraham','Johnston','New Relic');
 INSERT INTO customer(first_name,last_name,company_name) VALUES ('Ada','Anderson','Bluth Company');
