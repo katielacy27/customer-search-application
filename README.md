@@ -48,37 +48,3 @@ NEXT STEPS I did not get a docker set up for the react application working yet
 1. Run the backend application following the steps above ^^ Otherwise there will be a very boring site.
 2. from the *react-app* directory run `npm start` and you should see something
 
-### Usage
-
-GIFs are useful here to see the project in action.
-
-### Troubleshooting
-
-Or FAQs, if that's more appropriate.
-
-## Back matter
-
-### Legal disclaimer
-
-Usage of this tool for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state, and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program.
-
-### Acknowledgements
-
-Thanks to all who helped inspire this template.
-
-### See also
-
-- [A simple README.md template](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)
-- [A template to make good README.md](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-- [A sample README for all your GitHub projects](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
-- [A simple README.md template to kickstart projects](https://github.com/me-and-company/readme-template)
-
-### To-do
-
-- [ ] Still need to do this
-- [ ] ~~Decided not to do this~~
-- [x] Done!
-
-### License
-
-This project is licensed under the [MIT License](LICENSE.md).
