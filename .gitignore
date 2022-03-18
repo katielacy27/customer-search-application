@@ -3,3 +3,5 @@ customer-service/target/*
 customer-service/.DS_Store
 
 *.DS_Store
+
+*/node_modules/

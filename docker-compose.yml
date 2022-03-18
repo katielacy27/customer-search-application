@@ -15,7 +15,7 @@ services:
   #     - CHOKIDAR_USEPOLLING=true
   #
   customer-service:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile-b
     container_name: customer-service
