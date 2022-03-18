@@ -51,6 +51,8 @@ NEXT STEPS I did not get a docker set up for the react application working yet
 I would love to add more tests. I would test the server for returning any combination of name, company name, and sort by queries
 (since we don't have to do any sort of load test or test for running out of stack/memory I would leave these cases out)
 
+Another thing I would like to do in the backend is pull the Customer model into another module 'SDK' This would prevent another service having to import the entire customer-service package if they wanted to use the model.
+
 #### Frontend
 I have not used React in a while so this assignment did have me rereading code I wrote in the past and reading about the new features that had come out since I was writing React (before web hooks were even added). I really enjoyed it! I also learned about and used functional components rather than class components. Writing components with state is A LOT easier than
 what I remembered from class components since I didn't have to write all the react lifecycle methods.
