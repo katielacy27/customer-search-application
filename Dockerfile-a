@@ -12,9 +12,10 @@ ENV PATH /react-app/node_modules/.bin:$PATH
 COPY ./react-app/package.json ./
 COPY ./react-app/package-lock.json ./
 
-RUN npm i
-# add app
+# npm install
+RUN npm install
 
+# add app
 COPY . ./
 
 # start app

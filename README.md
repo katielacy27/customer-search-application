@@ -39,6 +39,8 @@ It will also start the spring boot application.
 and  
 `postgres            | 2022-03-16 20:59:28.276 UTC [1] LOG:  database system is ready to accept connections`  
 Congratulations you are running a Spring boot API connected to a postgres instance in docker!
+4. Navigate to `localhost:8080/v1/customers/` and you should see a list of customer objects.
+  Available endpoints and query parameters  are described further in the *customer-service* README.
 
 ### Running the frontend application
 
@@ -46,5 +48,6 @@ NEXT STEPS I did not get a docker set up for the react application working yet
 (I will continue to work on that so if you are reading this message then I have still not fixed it.)
 
 1. Run the backend application following the steps above ^^ Otherwise there will be a very boring site.
-2. from the *react-app* directory run `npm start` and you should see something
-
+2. from the *react-app* directory run `npm start`
+3. if you see the message `webpack 5.70.0 compiled successfully in 115 ms` then the app is running!
+4. navigate to localhost:3000 and you should see a webpage that says "Customer Search"
