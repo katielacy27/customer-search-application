@@ -12,8 +12,9 @@ public class CustomerSpecification {
     // we don't care if the first name or last name begins with the search query
     // thus we use specification.or
     public Specification<CustomerEntity> getSpecificationFromQuery(CustomerQuery query) {
-        Specification<CustomerEntity> returned =  Specification.where(containsFirstName(query.getName()))
-                .or(containsLastName(query.getName()));
+        Specification<CustomerEntity> returned = Specification.where(containsFirstName(query.getName()))
+                .or(containsLastName(query.getName()))
+                .and(hasCompanyName(query.getCompanyName()));
         return returned;
     }
 
@@ -34,5 +35,11 @@ public class CustomerSpecification {
                 criteriaBuilder.equal(
                         criteriaBuilder.substring(customerEntityRoot.get(CustomerEntity_.lastName),1, lastName.length())
                         , lastName);
+    }
+
+    public Specification<CustomerEntity> hasCompanyName(String companyName) {
+        if (companyName == null) return null;
+        return (customerEntityRoot, criteriaQuery, criteriaBuilder) ->
+                criteriaBuilder.equal(customerEntityRoot.get(CustomerEntity_.companyName), companyName);
     }
 }
