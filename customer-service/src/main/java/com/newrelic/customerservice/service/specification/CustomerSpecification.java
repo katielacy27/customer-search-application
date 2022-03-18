@@ -19,7 +19,7 @@ public class CustomerSpecification {
     }
 
     public Specification<CustomerEntity> containsFirstName(String firstName) {
-        if (firstName == null) return null;
+        if (firstName == null || firstName == "") return null;
         // criteria builder substring signature: substring(phrase, start, length);
         // find if the first characters of the name match what we are searching
         return (customerEntityRoot, criteriaQuery, criteriaBuilder) ->
@@ -28,7 +28,7 @@ public class CustomerSpecification {
                         , firstName);    }
 
     public Specification<CustomerEntity> containsLastName(String lastName) {
-        if (lastName == null) return null;
+        if (lastName == null || lastName == "") return null;
         // criteria builder substring signature: substring(phrase, start, length);
         // find if the first characters of the name match what we are searching
         return (customerEntityRoot, criteriaQuery, criteriaBuilder) ->
@@ -38,7 +38,7 @@ public class CustomerSpecification {
     }
 
     public Specification<CustomerEntity> hasCompanyName(String companyName) {
-        if (companyName == null) return null;
+        if (companyName == null || companyName == "") return null;
         return (customerEntityRoot, criteriaQuery, criteriaBuilder) ->
                 criteriaBuilder.equal(customerEntityRoot.get(CustomerEntity_.companyName), companyName);
     }
