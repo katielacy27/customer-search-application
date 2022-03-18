@@ -1,16 +1,4 @@
-# New Relic Interview Customer Application
-
-Take-home Technical Exercise: Growth Eng - Full-Stack SWE
-Growth Engineering Team, New Relic, San Francisco, CA
-
-### Problem Statement
-1. Create a full stack application that allows you to filter a list of customers in three ways:
-  a. Filter by a customer's name via text input field
-  b. Filter by a customer's company name via select dropdown
-  c. Sort by a customer's first name, last name, or company name with both ascending and descending order
-2. Add test coverage for both the User Interface and Backend
-3. Showcase your approach to solving the problem (share with us why you made the decisions you made)
-
+# Customer Search Application
 
 ### Built with
 
