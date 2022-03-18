@@ -1,16 +1,21 @@
 # New Relic Interview Customer Application
 
+Take-home Technical Exercise: Growth Eng - Full-Stack SWE
+Growth Engineering Team, New Relic, San Francisco, CA
 
-## Description
+### Problem Statement
+1. Create a full stack application that allows you to filter a list of customers in three ways:
+  a. Filter by a customer's name via text input field
+  b. Filter by a customer's company name via select dropdown
+  c. Sort by a customer's first name, last name, or company name with both ascending and descending order
+2. Add test coverage for both the User Interface and Backend
+3. Showcase your approach to solving the problem (share with us why you made the decisions you made)
 
-
-### Features
 
 ### Built with
 
 - Java Spring Boot
 - React
-- Love
 
 ## Running the project
 
@@ -51,3 +56,19 @@ NEXT STEPS I did not get a docker set up for the react application working yet
 2. from the *react-app* directory run `npm start`
 3. if you see the message `webpack 5.70.0 compiled successfully in 115 ms` then the app is running!
 4. navigate to localhost:3000 and you should see a webpage that says "Customer Search"
+
+### Development Next Steps
+
+##### Backend
+I would love to add more tests. I would test the server for returning any combination of name, company name, and sort by queries
+(since we don't have to do any sort of load test or test for running out of stack/memory I would leave these cases out)
+
+#### Frontend
+I have not used React in a while so this assignment did have me rereading code I wrote in the past and reading about the new features that had come out since I was writing React (before web hooks were even added). I really enjoyed it! I also learned about and used functional components rather than class components. Writing components with state is A LOT easier than
+what I remembered from class components since I didn't have to write all the react lifecycle methods.
+
+I would really like to add more design to the page. I would also like to add tests.
+I was researching and decided I would test my components with the React testing library (RTL).
+I would add tests for both my app and CustomerTable component.
+
+Lastly in the frontend I would like to get the app hot reloading with docker.
