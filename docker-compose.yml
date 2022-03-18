@@ -1,18 +1,13 @@
 version: '3.8'
 services:
-  # customer-client:
-  #   container_name: customer-client
-  #   build:
-  #     context: .
-  #     dockerfile: ./customer-client/Dockerfile
-  #   volumes:
-  #     - '.:/app'
-  #     - '/app/node_modules'
-  #   ports:
-  #     - 3000:3000
-  #   # enables hot reloading
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true
+  customer-client:
+    container_name: customer-client
+    build: ./customer-client
+    volumes:
+      - './customer-client:/customer-client'
+      - './customer-client/node_modules'
+    ports:
+      - "3000:3000"
 
   customer-service:
     build:
